@@ -1,2 +1,0 @@
-* mysql redis
-* jvm基础 jvm调优
