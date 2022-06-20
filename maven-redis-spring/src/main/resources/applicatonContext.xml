@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:component-scan base-package="com.edu"></context:component-scan>
+    <!--    连接池配置-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="minIdle" value="20"></property>
+        <property name="maxTotal" value="50"></property>
+        <property name="maxWaitMillis" value="5"></property>
+    </bean>
+    <!--    连接池-->
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg name="poolConfig" ref="jedisPoolConfig"></constructor-arg>
+        <constructor-arg name="host" value="116.205.230.80"></constructor-arg>
+        <constructor-arg name="port" value="6375"></constructor-arg>
+        <constructor-arg name="timeout" value="15000"></constructor-arg>
+        <constructor-arg name="password" value="1234"></constructor-arg>
+    </bean>
+</beans>

@@ -1,0 +1,10 @@
+dubbo:
+  application:
+    name: order-Consumer
+  registry:
+    address: zookeeper://116.205.230.80:2181
+server:
+  port: 9090
+spring:
+  profiles:
+    active: swagger

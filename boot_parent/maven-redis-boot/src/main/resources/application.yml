@@ -1,0 +1,14 @@
+#Redis 服务器地址
+spring:
+  redis:
+    port: 6375
+    password: 1234
+    host: 116.205.230.80
+    timeout: 15000
+    database: 0
+    lettuce:
+      pool:
+        max-active: 20
+        max-idle: 5
+        max-wait: -1
+        min-idle: 0

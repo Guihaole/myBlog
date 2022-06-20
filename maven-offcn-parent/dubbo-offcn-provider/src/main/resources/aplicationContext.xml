@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://dubbo.apache.org/schema/dubbo
+                           http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+    <!--1. 指定当前服务应用的名字（不要和别的服务名相同）-->
+    <dubbo:application name="customerServiceProvider"></dubbo:application>
+    <!--2.protocol:指定协议名      address：指定zookeeper地址-->
+    <dubbo:registry address="zookeeper://116.205.230.80:2181"></dubbo:registry>
+    <!--3.用dubbo协议在20080端口暴露服务。dubbo 默认端口是20880 -->
+    <dubbo:protocol name="dubbo" port="20880"></dubbo:protocol>
+    <!--4.指定要暴露的服务interface:指定暴露服务的接口全类名ref：要暴露的服务的接口实现类 -->
+    <dubbo:service interface="com.offcn.service.CustomerService" ref="customerService"></dubbo:service>
+    <bean id="customerService" class="com.offcn.service.CustomerServiceImpl"></bean>
+</beans>

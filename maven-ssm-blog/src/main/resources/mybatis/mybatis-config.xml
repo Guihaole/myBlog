@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatits.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!--        log4j配置-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <!--     开启懒加载:对于子查询而言懒加载可以起到作用,没用到就不加载-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--        开启二级缓存-->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+    <plugins>
+        <!--记得导报        -->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <property name="helperDialect" value="mysql"/>
+        </plugin>
+    </plugins>
+</configuration>

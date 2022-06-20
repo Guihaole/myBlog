@@ -1,0 +1,4 @@
+#默认开启为true  权限认证没登陆去登录
+security:
+  basic:
+    enabled: true

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div th:text="${el}"></div>
+    <div th:utext="${el}"></div>
+    <ul>
+        <li th:text="${user.id}"></li>
+        <li th:text="${user.name}"></li>
+        <li th:text="${user.age}"></li>
+    </ul>
+    <img src="../static/1.jpg" th:src="'/'+${src.src1}" height="200px" width="200px"/>
+    <img src="../static/2.jpg" th:src="'/'+${src[src2]}" height="200px" width="200px"/>
+    <a href="http://www.jd.com" th:href="${src.src3}">跳转</a>
+</body>
+</html>

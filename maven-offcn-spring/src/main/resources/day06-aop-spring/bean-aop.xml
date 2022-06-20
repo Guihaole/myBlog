@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/aop
+                           https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--    注入切面类-->
+    <bean id="txManagerAspect" class="com.edu.aop.TxManagerAspect"></bean>
+    <!--    注入业务类-->
+    <bean id="aopService" class="com.edu.service.AopServiceImpl"></bean>
+
+    <aop:config>
+        <!--定义切点-->
+        <aop:pointcut id="pc" expression="execution(void com.edu.service.AopServiceImpl.aopAspect(..))"/>
+        <!--配置切面-->
+        <aop:aspect ref="txManagerAspect">
+            <aop:before method="begin" pointcut-ref="pc"></aop:before>
+            <aop:after-returning method="commit" pointcut-ref="pc"></aop:after-returning>
+            <aop:after-throwing method="rollback" pointcut-ref="pc"></aop:after-throwing>
+            <aop:after method="close" pointcut-ref="pc"></aop:after>
+<!--            <aop:around method="around" pointcut-ref="pc"></aop:around>-->
+        </aop:aspect>
+    </aop:config>
+</beans>

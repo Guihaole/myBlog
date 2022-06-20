@@ -1,0 +1,44 @@
+#主配置文件
+server:
+  port: 8081
+#引入环境
+person:
+  pname: machao
+  age: 18
+  success: true
+  birth: 2020/12/23
+  car:
+    cid: 10001
+    cname: baoshijie
+    cprice: 10000
+  # k1: v1
+  # k2: v2
+  maps: {k1: v1,k2: v2}
+  # - 1
+  # - 2
+  lists: [1,2,3,4]
+spring:
+#  profiles:
+#    active: dev
+  config:
+    name: initBootApplication
+#  thymeleaf:
+#    cache: false
+#  mvc:
+#    view:
+#      prefix:
+#  config:
+#    location: classpath:/res/
+swagger:
+  title: spring-boot-starter-swagger
+  description: Starter for swagger 2.x
+  version: 1.9.0.RELEASE
+  license: Apache License, Version 2.0
+  license-url: https://www.apache.org/licenses/LICENSE-2.0.html
+  terms-of-service-url: https://github.com/dyc87112/spring-boot-starter-swagger
+  contact:
+    name: guihaole
+    url: http://blog.didispace.com
+    email: 2033443140@qq.com
+  base-package: com.edu.controller
+  base-path: /**

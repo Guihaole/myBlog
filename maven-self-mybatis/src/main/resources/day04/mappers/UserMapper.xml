@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.offcn.mapper.UserMapper">
+    <sql id="BaseSql">uid,name,phone,age,sex</sql>
+    <select id="selectUserByUidOrName" parameterType="user" resultType="user">
+        select
+        <include refid="BaseSql"></include>
+        from user
+        <where>
+            <if test="uid!=null">
+                and uid = #{uid}
+            </if>
+            <if test="name!=null and name!=''">
+                and name = #{name}
+            </if>
+        </where>
+    </select>
+    <select id="selectUserByUidOrName2" parameterType="user" resultType="user">
+        select
+        <include refid="BaseSql"></include>
+        from user
+        <trim prefix="where" prefixOverrides="and">
+            <if test="uid!=null">
+                and uid = #{uid}
+            </if>
+            <if test="name!=null and name!=''">
+                and name = #{name}
+            </if>
+        </trim>
+    </select>
+    <update id="updateUserByUid" parameterType="user">
+        update user
+        <set>
+            <if test="name!=null and name!=''">
+                name = #{name},
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone = #{phone},
+            </if>
+        </set>
+        where uid = #{uid}
+    </update>
+    <update id="updateUserByUid2" parameterType="user">
+        update user
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name!=null and name!=''">
+                name = #{name},
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone = #{phone},
+            </if>
+        </trim>
+        where uid = #{uid}
+    </update>
+    <select id="selectUserByUidName" parameterType="user" resultType="user">
+        select
+        <include refid="BaseSql"></include>
+        from user
+        where
+        <choose>
+            <when test="uid!=null">
+                uid = #{uid}
+            </when>
+            <when test="name!=null and name!=''">
+                name = #{name}
+            </when>
+            <otherwise>
+                1=1
+            </otherwise>
+        </choose>
+    </select>
+    <select id="selectUserByIds" resultType="user">
+        select
+        <include refid="BaseSql"></include>
+        from user
+        where uid in
+        <foreach collection="list" open="(" close=")" item="id" separator=",">
+            #{id}
+        </foreach>
+    </select>
+    <select id="selectUserByIds2" resultType="user">
+        select
+        <include refid="BaseSql"></include>
+        from user
+        where uid in
+        <foreach collection="array" open="(" close=")" item="id" separator=",">
+            #{id}
+        </foreach>
+    </select>
+    <select id="selectUserByIds3" resultType="user">
+        select
+        <include refid="BaseSql"></include>
+        from user
+        where uid in
+        <foreach collection="idList" open="(" close=")" item="id" separator=",">
+            #{id}
+        </foreach>
+    </select>
+    <!--    多表联合查询-->
+    <resultMap id="BaseMap" type="user">
+        <id column="uid" property="uid"/>
+        <result column="name" property="name"/>
+        <result column="phone" property="phone"/>
+        <result column="age" property="age"/>
+        <result column="username" property="username"/>
+    </resultMap>
+    <resultMap id="selectUserAndCourseUserByUserNameMap" type="user" extends="BaseMap">
+        <association property="courseUser" javaType="CourseUser">
+            <id column="id" property="id"/>
+            <result column="cid" property="cid"/>
+        </association>
+    </resultMap>
+    <select id="selectUserAndCourseUserByUserName" resultMap="selectUserAndCourseUserByUserNameMap">
+        select
+        u.uid,name,phone,age,username,id,cid
+        from user u,course_user cu
+        where u.uid=cu.uid and username=#{username}
+    </select>
+    <!--    嵌套查询-->
+    <resultMap id="selectUserByUserNameMap" type="user" extends="BaseMap">
+        <association property="courseUser"
+                     javaType="CourseUser"
+                     select="com.offcn.mapper.CourseUserMapper.selectCourseUserByUid"
+                     column="uid">
+        </association>
+    </resultMap>
+    <select id="selectUserByUserName" resultMap="selectUserByUserNameMap">
+        select uid,name,phone,age,username from user where username=#{username}
+    </select>
+</mapper>

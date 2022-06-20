@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.offcn.mapper.CourseMapper">
+    <!--    子查询-->
+    <resultMap id="selectCourseAndDetailByCourseNameMap2" type="com.offcn.bean.Course">
+        <result property="cid" column="cid"></result>
+        <result property="courseName" column="courseName"></result>
+        <result property="descs" column="descs"></result>
+        <result property="courseType" column="courseType"></result>
+        <result property="courseImage" column="courseImage"></result>
+        <result property="courseVideo" column="courseVideo"></result>
+        <result property="coursePrice" column="coursePrice"></result>
+        <result property="status" column="status"></result>
+        <result property="createTime" column="createTime"></result>
+        <collection property="courseList"
+                    select="com.offcn.mapper.CoursedetailMapper.selectCourseDetailByCid"
+                    ofType="com.offcn.bean.Coursedetail"
+                    column="{cid = cid}">
+        </collection>
+    </resultMap>
+
+    <select id="selectCourseAndDetailByCourseName2" resultMap="selectCourseAndDetailByCourseNameMap2">
+        select *
+        from course
+        where courseName=#{courseName}
+    </select>
+
+    <!--    多表联合查询-->
+    <resultMap id="selectCourseMap" type="com.offcn.bean.Course">
+        <result property="cid" column="cid"></result>
+        <result property="courseName" column="courseName"></result>
+        <result property="descs" column="descs"></result>
+        <result property="courseType" column="courseType"></result>
+        <result property="courseImage" column="courseImage"></result>
+        <result property="courseVideo" column="courseVideo"></result>
+        <result property="coursePrice" column="coursePrice"></result>
+        <result property="status" column="status"></result>
+        <result property="createTime" column="createTime"></result>
+        <!--        <association property="" javaType=""></association>-->
+        <collection property="courseList" ofType="com.offcn.bean.Coursedetail">
+            <result property="id" column="id"></result>
+            <result property="name" column="name"></result>
+            <result property="type" column="type"></result>
+            <result property="url" column="url"></result>
+            <result property="start_data" column="start_data"></result>
+        </collection>
+    </resultMap>
+    <select id="selectCourseAndDetailByCourseName" resultMap="selectCourseMap">
+        select t1.*,t2.id,t2.`name`,t2.start_data,t2.type,t2.url
+        from course t1,coursedetail t2
+        where t1.cid=t2.cid and  courseName=#{courseName}
+    </select>
+
+</mapper>

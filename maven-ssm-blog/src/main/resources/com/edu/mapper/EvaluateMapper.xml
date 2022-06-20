@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.edu.mapper.EvaluateMapper" >
+  <resultMap id="BaseResultMap" type="com.edu.bean.Evaluate" >
+    <id column="eid" property="eid" jdbcType="INTEGER" />
+    <result column="econtent" property="econtent" jdbcType="VARCHAR" />
+    <result column="b_fk" property="bFk" jdbcType="INTEGER" />
+    <result column="u_fk" property="uFk" jdbcType="INTEGER" />
+    <result column="etime" property="etime" jdbcType="DATE" />
+  </resultMap>
+  <!--  根据bfk查询所有的评论信息-->
+  <select id="selectByBfk" resultMap="BaseResultMap" parameterType="int">
+    select eid ,b_fk,econtent,etime from evaluate where b_fk=#{bfk};
+  </select>
+
+  <!--模糊带分页查询-->
+  <resultMap id="selectEvaluateByLikeUnameMap" type="evaluate" extends="BaseResultMap">
+    <association property="user" javaType="user">
+      <id property="uid" column="uid"></id>
+      <result property="truename" column="truename"></result>
+    </association>
+    <association property="blog" javaType="blog">
+      <id property="bid" column="bid"></id>
+      <result property="btitle" column="btitle"></result>
+      <result property="date" column="date"></result>
+      <result property="bcontent" column="bcontent"></result>
+    </association>
+  </resultMap>
+  <select id="selectEvaluateByLikeUname" resultMap="selectEvaluateByLikeUnameMap">
+    select b.bid,b.btitle,b.date,b.bcontent,u.truename,u.uid,e.eid,e.etime from evaluate e
+    LEFT JOIN blog b
+    on e.b_fk=b.bid
+    LEFT JOIN `user` u
+    on e.u_fk=u.uid
+    <where>
+      <if test="uname!=null and uname!=''">
+        u.truename like "%"#{uname}"%"
+      </if>
+    </where>
+  </select>
+
+
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    eid, econtent, b_fk, u_fk, etime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.edu.bean.EvaluateExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from evaluate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from evaluate
+    where eid = #{eid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from evaluate
+    where eid = #{eid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.edu.bean.EvaluateExample" >
+    delete from evaluate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.edu.bean.Evaluate" >
+    insert into evaluate (eid, econtent, b_fk,
+      u_fk, etime)
+    values (#{eid,jdbcType=INTEGER}, #{econtent,jdbcType=VARCHAR}, #{bFk,jdbcType=INTEGER},
+      #{uFk,jdbcType=INTEGER}, #{etime,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.edu.bean.Evaluate" >
+    insert into evaluate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="eid != null" >
+        eid,
+      </if>
+      <if test="econtent != null" >
+        econtent,
+      </if>
+      <if test="bFk != null" >
+        b_fk,
+      </if>
+      <if test="uFk != null" >
+        u_fk,
+      </if>
+      <if test="etime != null" >
+        etime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="eid != null" >
+        #{eid,jdbcType=INTEGER},
+      </if>
+      <if test="econtent != null" >
+        #{econtent,jdbcType=VARCHAR},
+      </if>
+      <if test="bFk != null" >
+        #{bFk,jdbcType=INTEGER},
+      </if>
+      <if test="uFk != null" >
+        #{uFk,jdbcType=INTEGER},
+      </if>
+      <if test="etime != null" >
+        #{etime,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.edu.bean.EvaluateExample" resultType="java.lang.Integer" >
+    select count(*) from evaluate
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update evaluate
+    <set >
+      <if test="record.eid != null" >
+        eid = #{record.eid,jdbcType=INTEGER},
+      </if>
+      <if test="record.econtent != null" >
+        econtent = #{record.econtent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bFk != null" >
+        b_fk = #{record.bFk,jdbcType=INTEGER},
+      </if>
+      <if test="record.uFk != null" >
+        u_fk = #{record.uFk,jdbcType=INTEGER},
+      </if>
+      <if test="record.etime != null" >
+        etime = #{record.etime,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update evaluate
+    set eid = #{record.eid,jdbcType=INTEGER},
+      econtent = #{record.econtent,jdbcType=VARCHAR},
+      b_fk = #{record.bFk,jdbcType=INTEGER},
+      u_fk = #{record.uFk,jdbcType=INTEGER},
+      etime = #{record.etime,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edu.bean.Evaluate" >
+    update evaluate
+    <set >
+      <if test="econtent != null" >
+        econtent = #{econtent,jdbcType=VARCHAR},
+      </if>
+      <if test="bFk != null" >
+        b_fk = #{bFk,jdbcType=INTEGER},
+      </if>
+      <if test="uFk != null" >
+        u_fk = #{uFk,jdbcType=INTEGER},
+      </if>
+      <if test="etime != null" >
+        etime = #{etime,jdbcType=DATE},
+      </if>
+    </set>
+    where eid = #{eid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edu.bean.Evaluate" >
+    update evaluate
+    set econtent = #{econtent,jdbcType=VARCHAR},
+      b_fk = #{bFk,jdbcType=INTEGER},
+      u_fk = #{uFk,jdbcType=INTEGER},
+      etime = #{etime,jdbcType=DATE}
+    where eid = #{eid,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edu.mapper.CourseDetailMapper">
+    <select id="selectAll" resultType="Coursedetail">
+        select * from coursedetail
+    </select>
+    <insert id="insertCourseDetail" parameterType="courseDetail">
+        insert into coursedetail (name,type,url) values (#{name},#{type},#{url});
+    </insert>
+    <update id="updateCourseDetailByIdAndName">
+        update coursedetail set name= #{name} where id=#{id}
+    </update>
+    <delete id="deleteCourseDetailByIds">
+        delete from coursedetail
+        where
+        id in
+        <foreach collection="array" separator="," item="id" open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans.xsd
+							http://www.springframework.org/schema/context
+							http://www.springframework.org/schema/context/spring-context.xsd
+							http://www.springframework.org/schema/mvc
+							http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <context:component-scan base-package="com.edu.controller"/>
+    <mvc:annotation-driven></mvc:annotation-driven>
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+    <!--    资源放行-->
+    <!--    <mvc:default-servlet-handler></mvc:default-servlet-handler>-->
+    <!--    mapping代表拦截路径，location代表转发路径-->
+        <mvc:resources mapping="/view/*" location="/image/"/>
+    <!--    异常解析器配置-->
+<!--        <bean class="com.edu.exception.MyException"></bean>-->
+    <!--    拦截器配置-->
+        <mvc:interceptors>
+            <mvc:interceptor>
+                <!--  拦截mapping中的路径  -->
+                <mvc:mapping path="/user/**"/>
+                <!--    exclude-mapping不拦截-->
+                <mvc:exclude-mapping path="/forin/**"/>
+                <bean class="com.edu.config.AllHandler"></bean>
+            </mvc:interceptor>
+        </mvc:interceptors>
+    <!--    配置上传解析器-->
+        <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+            <property name="maxUploadSize" value="1048576"></property>
+        </bean>
+</beans>

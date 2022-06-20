@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.offcn.mapper.UserMapper">
+    <!--  推荐  模糊查询-->
+    <select id="likeQuery" parameterType="String" resultType="com.offcn.bean.User">
+        select * from user where name like concat(concat('%',#{name}),'%')
+    </select>
+<!--    <select id="likeQuery" parameterType="String" resultType="com.offcn.bean.User">-->
+<!--        select * from user where name like "%"#{name}"%"-->
+<!--    </select>-->
+<!--    <select id="likeQuery" parameterType="String" resultType="com.offcn.bean.User">-->
+<!--        select * from user where name like '%${name}%'-->
+<!--    </select>-->
+<!--    <select id="likeQuery" parameterType="String" resultType="com.offcn.bean.User">-->
+<!--        select * from user where name like #{name}-->
+<!--    </select>-->
+    <!--   参数映射 -->
+    <update id="updateQuery">
+        update user set name=#{arg0} where uid=#{param2}
+    </update>
+    <update id="updateQuery1">
+        update user set name=#{name} where uid=#{uid}
+    </update>
+    <update id="updateQuery2">
+        update user set name=#{name} where uid=#{uid}
+    </update>
+    <update id="updateQuery3">
+        update user set name=#{name} where uid=#{uid}
+    </update>
+
+    <!--参数映射    -->
+    <!--只映射不同字段也可以-->
+    <resultMap id="selectUserMap" type="user">
+        <id column="uid" property="uid"></id>
+        <result column="phone" property="phone"></result>
+    </resultMap>
+    <sql id="baseSql">
+        name,phone
+    </sql>
+    <select id="selectUser" resultMap="selectUserMap">
+        select <include refid="baseSql"></include>from user
+    </select>
+
+    <!--主键回填-&#45;&#45;指的是向数据库添加了一条数据需要立即返回它的主键（不走查询）-->
+<!--    <insert id="insertUser" parameterType="user" useGeneratedKeys="true" keyProperty="uid">-->
+<!--        insert into user (name,phone)values (#{name},#{phone})-->
+<!--    </insert>-->
+     <insert id="insertUser" parameterType="user">
+         <selectKey keyProperty="uid" resultType="Integer" order="AFTER">
+             select last_insert_id()
+         </selectKey>
+         insert into user (name,phone)values (#{name},#{phone})
+     </insert>
+</mapper>

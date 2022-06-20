@@ -1,0 +1,24 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<table border="1px">
+    <tr>
+        <th>序号</th>
+        <th>id</th>
+        <th>name</th>
+        <th>age</th>
+    </tr>
+    <tr th:each="user,iter :${userList}">
+        <td th:text="${iter.index}"></td>
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.name}"></td>
+        <td th:text="${user.age}"></td>
+    </tr>
+</table>
+</body>
+</html>

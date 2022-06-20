@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:component-scan base-package="com.edu"></context:component-scan>
+    <context:property-placeholder location="day02/c3p0.properties"></context:property-placeholder>
+
+    <bean id="courseDao" class="com.edu.dao.CourseDaoImpl"></bean>
+
+    <bean id="queryRunner" class="org.apache.commons.dbutils.QueryRunner">
+       <constructor-arg name="ds" ref="dataSource"></constructor-arg>
+    </bean>
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${c3p0.driverClass}"></property>
+        <property name="url" value="${c3p0.jdbcUrl}"></property>
+        <property name="username" value="${c3p0.user}"></property>
+        <property name="password" value="${c3p0.password}"></property>
+    </bean>
+</beans>

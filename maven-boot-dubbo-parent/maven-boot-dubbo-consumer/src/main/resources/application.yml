@@ -1,0 +1,7 @@
+server:
+  port: 8080
+dubbo:
+  registry:
+    address: zookeeper://47.93.11.231:2181
+  application:
+    name: site-consumer

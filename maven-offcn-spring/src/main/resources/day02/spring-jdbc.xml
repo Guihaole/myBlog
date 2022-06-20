@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--    参考博文https://blog.csdn.net/weixin_44001753/article/details/117467559-->
+    <!--    导入外部数据文件-->
+    <context:property-placeholder location="classpath:day02/c3p0.properties"/>
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${c3p0.driverClass}"></property>
+        <property name="jdbcUrl" value="${c3p0.jdbcUrl}"></property>
+        <property name="user" value="${c3p0.user}"></property>
+        <property name="password" value="${c3p0.password}"></property>
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <bean id="courseDao" class="com.edu.dao.CourseDaoImpl">
+        <property name="jdbcTemplate" ref="jdbcTemplate"></property>
+    </bean>
+</beans>

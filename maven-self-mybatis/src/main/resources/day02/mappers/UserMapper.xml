@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="user">
+    <select id="selectUserAll" resultType="com.offcn.bean.User">
+        select * from user
+    </select>
+    <insert id="insertUser" parameterType="com.offcn.bean.User">
+        insert into user (uid,name,phone,age)values (null,#{name},#{phone},#{age})
+    </insert>
+    <update id="updateUser" parameterType="com.offcn.bean.User">
+        update user set name=#{name} where uid=#{uid}
+    </update>
+    <delete id="deleteUser" parameterType="Integer">
+        delete from user where uid=#{uid}
+    </delete>
+    <select id="selectUserById" resultType="com.offcn.bean.User">
+        select * from user where uid=#{uid}
+    </select>
+</mapper>

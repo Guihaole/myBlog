@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.offcn.mapper.UserMapper">
+
+    <select id="selectUser" resultType="com.offcn.bean.User">
+        select * from user
+    </select>
+    <!--        <where>-->
+    <!--            <if test="username!=null and username!=''">-->
+    <!--                username=#{username}-->
+    <!--            </if>-->
+    <!--        </where>-->
+    <!--        in-->
+    <!--        <foreach collection="list" separator="," item="i" open="(" close=")">-->
+    <!--            -->
+    <!--        </foreach>-->
+    <!--    对象映射-->
+    <insert id="insertUser" parameterType="user" useGeneratedKeys="true" keyProperty="uid">
+        insert into user (
+        `name`,phone,age,sex,username,`password`
+        ) values (#{name},#{phone},#{age},#{sex},#{username},#{password});
+    </insert>
+    <!--    map映射-->
+    <insert id="insertUser2" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="uid">
+        insert into user (
+        `name`,phone
+        ) values (#{name},#{phone});
+    </insert>
+</mapper>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.offcn.mapper.CourseMapper">
+    <resultMap id="BaseMap" type="Course">
+        <id column="cid" property="cid"></id>
+        <result column="courseName" property="courseName"></result>
+        <result column="descs" property="descs"></result>
+        <result column="courseType" property="courseType"></result>
+    </resultMap>
+    <!--    联合映射  注意map的继承关系-->
+    <resultMap id="selectCourseAndDetailByCourseName3Map" type="Course" extends="BaseMap">
+        <collection property="courseList" ofType="coursedetail">
+            <id column="id" property="id"/>
+            <result column="name" property="name"></result>
+            <result column="type" property="type"></result>
+            <result column="url" property="url"></result>
+        </collection>
+    </resultMap>
+    <select id="selectCourseAndDetailByCourseName3" resultMap="selectCourseAndDetailByCourseName3Map">
+        select
+        c.cid,courseName,descs,courseType,id,name,type,url
+        from course c,coursedetail cd where c.cid=cd.cid and courseName=#{courseName}
+    </select>
+
+
+    <!-- 嵌套映射-->
+    <resultMap id="selectCourseByCourseNameMap" type="Course" extends="BaseMap">
+        <collection
+                property="courseList"
+                ofType="com.offcn.bean.Coursedetail"
+                column="cid"
+                select="com.offcn.mapper.CoursedetailMapper.selectCourseDetailByCid">
+        </collection>
+    </resultMap>
+    <select id="selectCourseByCourseName" resultMap="selectCourseByCourseNameMap">
+        select cid,courseName,descs,courseType from course where courseName=#{courseName}
+    </select>
+</mapper>

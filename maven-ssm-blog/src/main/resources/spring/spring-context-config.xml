@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--    包扫描，除外controller注解之外的都扫描-->
+    <context:component-scan base-package="com.edu">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <!--    数据源配置-->
+    <context:property-placeholder location="classpath:db.properties"></context:property-placeholder>
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${c3p0.driverClass}"></property>
+        <property name="jdbcUrl" value="${c3p0.jdbcUrl}"></property>
+        <property name="user" value="${c3p0.user}"></property>
+        <property name="password" value="${c3p0.password}"></property>
+    </bean>
+    <!--    事务-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>
+    <!--    mybatis-->
+    <bean id="sqlSessionFactoryBean" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property name="mapperLocations" value="classpath:com/edu/mapper/*.xml"></property>
+        <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"></property>
+        <property name="typeAliasesPackage" value="com.edu"></property>
+    </bean>
+    <!--    接口映射-->
+    <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.edu.mapper"></property>
+    </bean>
+</beans>

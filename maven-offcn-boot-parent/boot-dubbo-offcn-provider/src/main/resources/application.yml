@@ -1,0 +1,22 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/boot-test?characterEncoding=utf-8
+    username: root
+    password: 1234
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 20 #初始化时池中建立的物理连接个数。
+      max-active: 50 #最大连接数
+      max-wait: 6000 #获取连接时最大等待时间，单位毫秒
+  profiles:
+    active: dubbo
+mybatis:
+  type-aliases-package: com.edu.bean
+  mapper-locations: classpath:mappers/*Mapper.xml
+  configuration:
+    cache-enabled: true #开启二级缓存
+    lazy-loading-enabled: true #开启延时加载开关
+    aggressive-lazy-loading: false #关闭立即加载，实施按需加载

@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://116.205.230.80:3306/mybatisplus
+    username: root
+    password: 1234
+
+#输出com.offcn.mapper包中的相关日志
+logging:
+  level:
+    com:
+      offcn:
+        mapper: debug
+#springboot整合mybatisplus
+mybatis-plus:
+  config-location:
+  mapper-locations: "classpath:/mappers/*.xml" #mapper配置文件的位置
+  type-aliases-package: "com.edu.bean" #设置别名

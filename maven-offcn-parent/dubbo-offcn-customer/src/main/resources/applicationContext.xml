@@ -1,0 +1,19 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://dubbo.apache.org/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://dubbo.apache.org/schema/dubbo
+       http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
+    <context:component-scan base-package="com.offcn.service"></context:component-scan>
+    <!--1.指定当前订阅服务的名字-->
+    <dubbo:application name="orderServiceConsumer"></dubbo:application>
+    <!--2.指定注册中心的地址-->
+    <dubbo:registry address="zookeeper://116.205.230.80:2181"></dubbo:registry>
+    <!--3. 声明需要调用的远程服务器的接口（
+    interface的值要和提供者接口路径名称一致，不然的话dubbo找不到要订阅的服务）；生成远程服务代理-->
+    <dubbo:reference id="customerService" interface="com.offcn.service.CustomerService"></dubbo:reference>
+</beans>

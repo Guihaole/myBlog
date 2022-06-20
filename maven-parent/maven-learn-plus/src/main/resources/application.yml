@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/seckill?characterEncoding=utf-8
+    username: root
+    password: 1234
+    type: com.zaxxer.hikari.HikariDataSource
+# 配置MyBatis日志
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  type-aliases-package: com.edu.pojo
+  #全局配置
+  global-config:
+    db-config:
+      table-prefix: s_
+      id_type: auto
+  type-enums-package: com.edu.emens

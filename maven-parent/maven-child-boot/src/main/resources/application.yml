@@ -1,0 +1,9 @@
+# 应用名称
+spring:
+  application:
+    name: maven-child-boot
+server:
+  port: 8086
+  servlet:
+    context-path: /gui
+

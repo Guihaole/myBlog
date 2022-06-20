@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatits.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="c3p0.properties"></properties>
+    <settings>
+        <!-- 打印查询语句 -->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+        <!--懒加载的全局配置-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--开启二级缓存-->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+    <typeAliases>
+        <!--起别名-->
+        <!--        <typeAlias alias="user" type="com.offcn.bean.User" />-->
+        <!--        <typeAlias alias="course" type="com.offcn.bean.Course" />-->
+        <!--        <typeAlias alias="coursedetail" type="com.offcn.bean.Coursedetail" />-->
+        <package name="com.offcn.bean"/>
+    </typeAliases>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${c3p0.driverClass}"/>
+                <property name="url" value="${c3p0.jdbcUrl}"/>
+                <property name="username" value="${c3p0.user}"/>
+                <property name="password" value="${c3p0.password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <!--mappers有四种引入方式，包的优先级最高        -->
+        <!--<package name=""/>-->
+        <!--<mapper resource="UserMapper.xml"/>-->
+        <!--<mapper resource="com/offcn/mapper/UserMapper.xml"/>-->
+        <!--<mapper resource="com/offcn/mapper/CourseMapper.xml"/>-->
+        <!--<mapper resource="com/offcn/mapper/CoursedetailMapper.xml"/>-->
+        <!--<mapper url=""></mapper>-->
+        <!--class 和 package使用的时候必须保证xml和接口在一个目录下-->
+        <!--<mapper class=""></mapper>-->
+        <!--<package name="类的全限定名"/>-->
+        <mapper resource="day04/mappers/UserMapper.xml"></mapper>
+        <mapper resource="day04/mappers/CourseMapper.xml"></mapper>
+        <mapper resource="day04/mappers/CourseDetailMapper.xml"></mapper>
+        <mapper resource="day04/mappers/CourseUserMapper.xml"></mapper>
+    </mappers>
+</configuration>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/aop
+                           https://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!--来写配置-->
+    <context:property-placeholder location="classpath:day05-tx-spring/db.properties"></context:property-placeholder>
+
+    <context:component-scan base-package="com.edu.service,com.edu.dao"></context:component-scan>
+
+    <!-- mybatis的数据源配置-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="password" value="${c3p0.password}"></property>
+        <property name="user" value="${c3p0.user}"></property>
+        <property name="jdbcUrl" value="${c3p0.jdbcUrl}"></property>
+        <property name="driverClass" value="${c3p0.driverClass}"></property>
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          id="transactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+<!--    <tx:annotation-driven transaction-manager="transactionManager"></tx:annotation-driven>-->
+    <!--    事务通知机制-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="moneyCount" read-only="false"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--    配置置入-->
+    <aop:config>
+        <aop:advisor advice-ref="txAdvice" pointcut="execution(* com..service.CountServiceImpl.*(..))"></aop:advisor>
+    </aop:config>
+
+
+</beans>

@@ -1,0 +1,21 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+    <div th:if="${flag=='yes'}">
+        我是人类
+    </div>
+    <div th:unless="${flag=='no'}">
+        我是人类二
+    </div>
+    <div th:switch="${age}">
+        <h1 th:case="18">成年</h1>
+        <h1 th:case="30">中年</h1>
+        <h1 th:case="50">老年</h1>
+    </div>
+</body>
+</html>

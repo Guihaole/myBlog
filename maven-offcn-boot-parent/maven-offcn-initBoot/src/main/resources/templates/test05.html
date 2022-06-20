@@ -1,0 +1,20 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+        <h1 th:if="${#strings.isEmpty(userList)}">我是true</h1>
+        <h1 th:text="${#dates.format(newDate,'yyyy-MM-dd HH:mm:ss')}"></h1>
+        <h1 th:text="${#strings.indexOf(testStr,'e')}"></h1>
+        <h1 th:text="${#strings.length(testStr)}"></h1>
+        <span th:text="${#strings.substring(testStr,0,3)}"></span><br>
+        <h1 th:text="${sessionContext}"></h1>
+        <h1 th:text="${servletContext}"></h1>
+        <h1 th:text="${requestContext}"></h1>
+        <h1 th:text="${#session.getAttribute('sessionContext')}"></h1>
+        <h1 th:text="${#servletContext.getAttribute('servletContext')}"></h1>
+</body>
+</html>

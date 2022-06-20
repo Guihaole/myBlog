@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.edu.mapper.BlogMapper" >
+  <resultMap id="BaseResultMap" type="com.edu.bean.Blog" >
+    <id column="bid" property="bid" jdbcType="INTEGER" />
+    <result column="btitle" property="btitle" jdbcType="VARCHAR" />
+    <result column="type_fk" property="typeFk" jdbcType="INTEGER" />
+    <result column="u_fk" property="uFk" jdbcType="INTEGER" />
+    <result column="date" property="date" jdbcType="DATE" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.edu.bean.Blog" extends="BaseResultMap" >
+    <result column="bcontent" property="bcontent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    bid, btitle, type_fk, u_fk, date
+  </sql>
+  <sql id="Blob_Column_List" >
+    bcontent
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.edu.bean.BlogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.edu.bean.BlogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from blog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from blog
+    where bid = #{bid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from blog
+    where bid = #{bid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.edu.bean.BlogExample" >
+    delete from blog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.edu.bean.Blog" >
+    insert into blog (bid, btitle, type_fk,
+      u_fk, date, bcontent
+      )
+    values (#{bid,jdbcType=INTEGER}, #{btitle,jdbcType=VARCHAR}, #{typeFk,jdbcType=INTEGER},
+      #{uFk,jdbcType=INTEGER}, #{date,jdbcType=DATE}, #{bcontent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.edu.bean.Blog" >
+    insert into blog
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bid != null" >
+        bid,
+      </if>
+      <if test="btitle != null" >
+        btitle,
+      </if>
+      <if test="typeFk != null" >
+        type_fk,
+      </if>
+      <if test="uFk != null" >
+        u_fk,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="bcontent != null" >
+        bcontent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bid != null" >
+        #{bid,jdbcType=INTEGER},
+      </if>
+      <if test="btitle != null" >
+        #{btitle,jdbcType=VARCHAR},
+      </if>
+      <if test="typeFk != null" >
+        #{typeFk,jdbcType=INTEGER},
+      </if>
+      <if test="uFk != null" >
+        #{uFk,jdbcType=INTEGER},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=DATE},
+      </if>
+      <if test="bcontent != null" >
+        #{bcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.edu.bean.BlogExample" resultType="java.lang.Integer" >
+    select count(*) from blog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update blog
+    <set >
+      <if test="record.bid != null" >
+        bid = #{record.bid,jdbcType=INTEGER},
+      </if>
+      <if test="record.btitle != null" >
+        btitle = #{record.btitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeFk != null" >
+        type_fk = #{record.typeFk,jdbcType=INTEGER},
+      </if>
+      <if test="record.uFk != null" >
+        u_fk = #{record.uFk,jdbcType=INTEGER},
+      </if>
+      <if test="record.date != null" >
+        date = #{record.date,jdbcType=DATE},
+      </if>
+      <if test="record.bcontent != null" >
+        bcontent = #{record.bcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update blog
+    set bid = #{record.bid,jdbcType=INTEGER},
+      btitle = #{record.btitle,jdbcType=VARCHAR},
+      type_fk = #{record.typeFk,jdbcType=INTEGER},
+      u_fk = #{record.uFk,jdbcType=INTEGER},
+      date = #{record.date,jdbcType=DATE},
+      bcontent = #{record.bcontent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update blog
+    set bid = #{record.bid,jdbcType=INTEGER},
+      btitle = #{record.btitle,jdbcType=VARCHAR},
+      type_fk = #{record.typeFk,jdbcType=INTEGER},
+      u_fk = #{record.uFk,jdbcType=INTEGER},
+      date = #{record.date,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.edu.bean.Blog" >
+    update blog
+    <set >
+      <if test="btitle != null" >
+        btitle = #{btitle,jdbcType=VARCHAR},
+      </if>
+      <if test="typeFk != null" >
+        type_fk = #{typeFk,jdbcType=INTEGER},
+      </if>
+      <if test="uFk != null" >
+        u_fk = #{uFk,jdbcType=INTEGER},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=DATE},
+      </if>
+      <if test="bcontent != null" >
+        bcontent = #{bcontent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where bid = #{bid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.edu.bean.Blog" >
+    update blog
+    set btitle = #{btitle,jdbcType=VARCHAR},
+      type_fk = #{typeFk,jdbcType=INTEGER},
+      u_fk = #{uFk,jdbcType=INTEGER},
+      date = #{date,jdbcType=DATE},
+      bcontent = #{bcontent,jdbcType=LONGVARCHAR}
+    where bid = #{bid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.edu.bean.Blog" >
+    update blog
+    set btitle = #{btitle,jdbcType=VARCHAR},
+      type_fk = #{typeFk,jdbcType=INTEGER},
+      u_fk = #{uFk,jdbcType=INTEGER},
+      date = #{date,jdbcType=DATE}
+    where bid = #{bid,jdbcType=INTEGER}
+  </update>
+
+
+  <!--查询所有博客的信息  -->
+  <resultMap id="getBlogListMap" type="com.edu.bean.Blog" extends="BaseResultMap" >
+      <association property="user" javaType="user"
+                   select="com.edu.mapper.UserMapper.selectByPrimaryKey" column="u_fk">
+      </association>
+    <association property="btype" javaType="Btype"
+                select="com.edu.mapper.BtypeMapper.selectByPrimaryKey" column="type_fk">
+    </association>
+  </resultMap>
+  <select id="getBlogList" resultMap="getBlogListMap" parameterType="com.edu.bean.BlogExample">
+    select bid,btitle,type_fk,u_fk,date from blog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <!--  查询一个博主的评论根据bid-->
+  <resultMap id="getBlogAndEvaluateListMap" type="blog" extends="BaseResultMap">
+    <collection property="evaluateList" ofType="com.edu.bean.Evaluate"
+                select="com.edu.mapper.EvaluateMapper.selectByBfk" column="bid"></collection>
+  </resultMap>
+  <select id="getBlogAndEvaluateList" resultMap="getBlogAndEvaluateListMap" parameterType="com.edu.bean.BlogExample">
+    select bid,bcontent,date from blog
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

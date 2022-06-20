@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--    bean注入-->
+    <bean id="user" class="com.edu.bean.User">
+        <property name="username" value="guihaole"></property>
+        <property name="password" value="123456"></property>
+    </bean>
+    <!--   属性注入-->
+    <bean id="student" class="com.edu.bean.Student">
+        <property name="address">
+            <value>上海深圳</value>
+        </property>
+        <property name="arr">
+            <array>
+                <value>1</value>
+                <value>2</value>
+            </array>
+        </property>
+        <property name="user">
+            <ref bean="user"></ref>
+        </property>
+        <property name="list">
+            <list>
+                <value>2</value>
+                <value>哈哈哈</value>
+                <ref bean="user"></ref>
+            </list>
+        </property>
+        <property name="map">
+            <map>
+                <entry key="1111" value="2222"></entry>
+                <entry key="1111" value="2222"></entry>
+                <entry key-ref="user" value-ref="user"></entry>
+            </map>
+        </property>
+        <property name="properties">
+            <props>
+                <prop key="1111">2222222</prop>
+            </props>
+        </property>
+    </bean>
+</beans>

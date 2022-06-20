@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.offcn.mapper.CoursedetailMapper">
+    <select id="selectCourseDetailByCid" resultType="com.offcn.bean.Coursedetail">
+       select id,`name`,start_data,`type`,url
+       from coursedetail where cid=#{cid}
+    </select>
+</mapper>

@@ -1,0 +1,30 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans.xsd
+							http://www.springframework.org/schema/context
+							http://www.springframework.org/schema/context/spring-context.xsd
+							http://www.springframework.org/schema/mvc
+							http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <context:component-scan base-package="com.edu"/>
+    <!--mapper 适配器  异常解析器    -->
+    <mvc:annotation-driven></mvc:annotation-driven>
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/"></property>
+        <property name="suffix" value=".jsp"></property>
+    </bean>
+    <!--    资源放行-->
+    <mvc:default-servlet-handler></mvc:default-servlet-handler>
+    <!--    mapping代表拦截路径，location代表转发路径-->
+    <!--        <mvc:resources mapping="/view/*" location="/view/"/>-->
+    <!--    异常解析器配置-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/nullExceptionMethod"/>
+            <bean class="com.edu.interceptor.MyInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>
